@@ -35,11 +35,11 @@
         display: flex;
         flex-direction: column;
     }
-    
+
     .post-edit-page .title {
         padding: 10px 0 0 10px;
     }
-    
+
     .post-edit-page .save-button {
         display: flex;
         justify-content: end;
