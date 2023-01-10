@@ -16,7 +16,7 @@
     <div class="page post-page">
         <form class="form" action="/post" method="post">
             @csrf
-            <textarea name="postContent" id="" cols="30" rows="5" placeholder="いまどうしてる?"></textarea>
+            <textarea name="postContent" id="post_text" cols="30" rows="5" placeholder="いまどうしてる?"></textarea>
             <div class="post-button">
                 <button class="button-white" type="submit">投稿する</button>
                 @error('postContent')
@@ -26,11 +26,16 @@
                     </p>
                 </div>
                 @enderror
+
             </div>
         </form>
     </div>
 </body>
 <script src="{{ asset('/js/app.js') }}"></script>
+<script>
+    /*ここに前期のjavascriptの課題を活用してアラートを出す*/
+    alert($message);
+</script>
 <style scoped>
     .post-page .form {
         display: flex;

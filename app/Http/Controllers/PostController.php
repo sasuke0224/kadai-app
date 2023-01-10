@@ -38,6 +38,7 @@ class PostController extends Controller
  
         Validator::make($request->all(), $rules, $messages)->validate();
         
+        
         // セッションにログイン情報があるか確認
         if (!Session::exists('user')) {
             // ログインしていなければログインページへ
