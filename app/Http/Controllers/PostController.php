@@ -31,10 +31,10 @@ class PostController extends Controller
     function store(Request $request)
     {
         $rules = [
-        'post_name' => 'required|min:1|max:140|',
+        'postContent' => 'required|max:140',
         ];
 
-        $messages = ['required' => '必須項目です', 'min' => '1文字以上にしてください','max' => '140文字以下にしてください。'];
+        $messages = ['required' => '1文字以上にしてください','max' => '140文字以下にしてください。'];
  
         Validator::make($request->all(), $rules, $messages)->validate();
         
