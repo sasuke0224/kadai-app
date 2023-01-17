@@ -18,7 +18,7 @@
             @csrf
             <textarea name="postContent" id="post_text" cols="30" rows="5" placeholder="いまどうしてる?"></textarea>
             <div class="post-button">
-                <button class="button-white" type="submit">投稿する</button>
+                <button class="button-white" id="btnSubmit" type="submit">投稿する</button>
                 @error('postContent')
                 <div class="mt-3">
                     <p class="text-red-500">
@@ -26,7 +26,6 @@
                     </p>
                 </div>
                 @enderror
-
             </div>
         </form>
     </div>
@@ -34,7 +33,27 @@
 <script src="{{ asset('/js/app.js') }}"></script>
 <script>
     /*ここに前期のjavascriptの課題を活用してアラートを出す*/
-    alert($message);
+    window.onload = function () {
+        btnSubmit.addEventListener('click', function (event) {
+            const btnSubmit = document.getElementById('btnSubmit');
+            const post_text = document.getElementById('post_text');
+            const max_length = 140;
+            const str = (post_text.value).length
+
+            let message = [];
+            if (post_text.value == '') {
+                message.push('1文字以上記入してください');
+            }
+            if (str > max_length) {
+                message.push('140文字以内にしてください');
+            }
+            if (message.length > 0) {
+                alert(message);
+                return;
+            }
+            alert('投稿完了');
+        });
+    };
 </script>
 <style scoped>
     .post-page .form {
