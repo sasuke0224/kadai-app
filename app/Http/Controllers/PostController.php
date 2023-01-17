@@ -129,7 +129,7 @@ class PostController extends Controller
         }
         // セッションにログイン情報があるか確認
         if (!Session::exists('user')) {
-            return redirect('/');
+            return redirect('/home');
         }
 
         // データ登録
@@ -163,7 +163,7 @@ class PostController extends Controller
         $user = $post->user();
         // 自分自身の投稿ページか判定
         if ($loginUser->id != $user->id) {
-            return redirect('/');
+            return redirect('/home');
         }
 
         // データ登録
