@@ -125,19 +125,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-       // 入力されたユーザーが存在するか確認
         $user = User::where('email', $request->email)->first();
-        $errorMessage = 'アドレス､もしくは､パスワードが不正です';
-        
+        $errorMessage = 'メールアドレス､もしくは､パスワードが不正です';
+
         if ($user != null) {
-            return view('signup', compact('errorMessage'));
+            return view('user.signup', compact('errorMessage'));
         }
         if ($request->validate(['email' =>'regex:/^[a-zA-Z0-9]{1}[a-zA-Z0-9_.+-]*@{1}[a-zA-Z0-9_.+-]+.[a-zA-Z0-9]+$/'])){
-            return view('signup', compact('errorMessage'));
+            return redirect('/');
+        }else{
+            return view('user.signup', compact('errorMessage'));
         }
-
-        if ($request->validate(['signup' => 'regex:/^[a-zA-Z0-9.?/-]{8,}$/'])) {
-            return view('signup', compact('errorMessage'));
+        if ($request->validate(['password' =>'regex:/^[a-zA-Z0-9.?/-]{8,}$/'])) {
+            return redirect('/');
+        }else{
+            return view('user.signup', compact('errorMessage'));
         }
         
         $new_user = new User;
