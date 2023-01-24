@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller,
     Session;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -114,7 +116,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.signup');
+        $errorMessage = null;
+        return view('user.signup',compact('errorMessage'));
     }
 
     /**
@@ -122,7 +125,25 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //TODO 登録処理
+       // 入力されたユーザーが存在するか確認
+        $user = User::where('email', $request->email)->first();
+        $errorMessage = 'アドレス､もしくは､パスワードが不正です';
+        
+        if ($user != null) {
+            return view('signup', compact('errorMessage'));
+        }
+        if ($request->validate(['email' =>'regex:/^[a-zA-Z0-9]{1}[a-zA-Z0-9_.+-]*@{1}[a-zA-Z0-9_.+-]+.[a-zA-Z0-9]+$/'])){
+            return view('signup', compact('errorMessage'));
+        }
+
+        if ($request->validate(['signup' => 'regex:/^[a-zA-Z0-9.?/-]{8,}$/'])) {
+            return view('signup', compact('errorMessage'));
+        }
+        
+        $new_user = new User;
+        $new_user->$fillable;
+        $new_user->save();
+        
 
         return redirect('/');
     }

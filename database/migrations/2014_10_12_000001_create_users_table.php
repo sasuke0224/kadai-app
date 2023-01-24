@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('biography', 140);
+            >nullable(true); // ここ
             $table->string('password');
             $table->timestamps();
         });

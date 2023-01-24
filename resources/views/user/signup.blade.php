@@ -13,31 +13,99 @@
 
 <body class="">
     <x-header></x-header>
-    <div class="page singup-page">
-        <h2>課題: ここに新規登録ページを作ること</h2>
-        <h3>必要なフォームパーツ</h3>
-        <ul>
-            <li>Email入力フォーム</li>
-            <li>パスワード入力フォーム</li>
-            <li>登録ボタン</li>
-        </ul>
-        <h3>バリデーションルール</h3>
-        <h4>メールアドレス</h4>
-        <ul>
-            <li>●●●@×××の形式になっていること</li>
-            <li>半角英数、記号のみを許容すること</li>
-        </ul>
-        <h4>パスワード</h4>
-        <ul>
-            <li>半角英数、記号のみを許容すること</li>
-            <li>8文字以上であること</li>
-        </ul>
-        <p>
-            JavascriptとUserControllorの両方で同じバリデーションを設けること
-        </p>
+    <div class="page signup-page">
+        <form class="form" action="/signup" method="post">
+            @csrf
+            <div class="form-item email">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" />
+            </div>
+            <div class="form-item password">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" />
+            </div>
+            @if ($errorMessage)
+            <div class="error-message font-red">{{ $errorMessage }}</div>
+            @endif
+            <div class="signup-button">
+                <button class="button-white" id="btnSubmit" type="submit">新規登録</button>
+            </div>
+        </form>
     </div>
 </body>
 <script src="{{ asset('/js/app.js') }}"></script>
-<style scoped></style>
+<script>
+    //前期のjavascript
+    window.onload = function () {
+        btnSubmit.addEventListener('click', function (event) {
+            const submit = document.getElementById('submit')
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            const emailreg = /^[a-zA-Z0-9]{1}[a-zA-Z0-9_.+-]*@{1}[a-zA-Z0-9_.+-]+.[a-zA-Z0-9]+$/;
+            const Passreg = /^[a-zA-Z0-9.?/-]{8,}$/;
+
+            let message = [];
+            if (email.value == '') {
+                message.push('メールアドレスが未入力です')
+            } else if (!emailreg.test(email.value)) {
+                message.push('メールアドレスの形式が不正です')
+            }
+            if (password.value == '') {
+                message.push('パスワードが未入力です');
+            } else if (!Passreg.test(password.value)) {
+                message.push('8文字以上の半角英数字､記号で入力してください')
+            }
+            if (message.length > 0) {
+                alert(message);
+                return;
+            }
+            alert('登録完了');
+        });
+    };
+</script>
+<style scoped>
+    .signup-page {
+        display: flex;
+        justify-content: center;
+    }
+
+    .signup-page .title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .signup-page .form {
+        width: 60vw;
+    }
+
+    .signup-page input {
+        height: 30px;
+        border-radius: 10px;
+        background-color: lightgray;
+    }
+
+    .signup-page .form-item {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .signup-page .singup-button {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .signup-page button {
+        width: 50%;
+        height: 30px;
+        font-size: 18px;
+    }
+
+    .signup-page .error-message {
+        margin-top: 5px;
+        font-size: 10px;
+    }
+</style>
 
 </html>
