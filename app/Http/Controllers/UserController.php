@@ -116,8 +116,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $errorMessage = null;
-        return view('user.signup',compact('errorMessage'));
+        return view('user.signup');
     }
 
     /**
@@ -125,27 +124,20 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
-        $errorMessage = 'メールアドレス､もしくは､パスワードが不正です';
+        $rules = [
+        'email' => 'required|email:filter|unique:users,email',
+        'password' => 'required|min:8',
+        ];
 
-        if ($user != null) {
-            return view('user.signup', compact('errorMessage'));
-        }
-        if ($request->validate(['email' =>'regex:/^[a-zA-Z0-9]{1}[a-zA-Z0-9_.+-]*@{1}[a-zA-Z0-9_.+-]+.[a-zA-Z0-9]+$/'])){
-            return redirect('/');
-        }else{
-            return view('user.signup', compact('errorMessage'));
-        }
-        if ($request->validate(['password' =>'regex:/^[a-zA-Z0-9.?/-]{8,}$/'])) {
-            return redirect('/');
-        }else{
-            return view('user.signup', compact('errorMessage'));
-        }
+        $messages = ['required' => '1文字以上にしてください','min' => 'パスワードは8文字以上にしてください','email' => 'メールアドレスの形式が不正です','unique' => 'このメールアドレスは既に使用されています'];
+ 
+        Validator::make($request->all(), $rules, $messages)->validate();
         
-        $new_user = new User;
-        $new_user->$fillable;
-        $new_user->save();
-        
+        // データ登録
+        $user = new user;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
 
         return redirect('/');
     }
