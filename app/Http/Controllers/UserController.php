@@ -125,6 +125,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $rules = [
+        'username' => 'required',
         'email' => 'required|email:filter|unique:users,email',
         'password' => 'required|min:8',
         ];
@@ -135,6 +136,7 @@ class UserController extends Controller
         
         // データ登録
         $user = new user;
+        $user->name = $request->username;
         $user->email = $request->email;
         $user->password = $request->password;
         $user->save();

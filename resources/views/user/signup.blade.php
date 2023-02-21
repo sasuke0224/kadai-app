@@ -14,12 +14,21 @@
 <body class="">
     <x-header></x-header>
     <div class="page signup-page">
-        <form class="form" action="/signup" method="post">
+        <form class="form" action="/signup" name="signup" method="post">
             @csrf
+            <div class="form-item username">
+                <label for="username">ユーザーネーム</label>
+                <input type="text" id="username" name="username" />
+            </div>@error('username')
+            <div class="mt-3">
+                <p class="text-red-500">
+                    {{ $message }}
+                </p>
+            </div>
+            @enderror
             <div class="form-item email">
                 <label for="email">Email</label>
                 <input type="text" id="email" name="email" />
-
             </div>@error('email')
             <div class="mt-3">
                 <p class="text-red-500">
@@ -40,7 +49,7 @@
             @enderror
 
             <div class="signup-button">
-                <button class="button-white" id="btnSubmit" type="submit">新規登録</button>
+                <button class="button-white" id="btnSubmit" type="button">新規登録</button>
 
             </div>
         </form>
@@ -72,7 +81,7 @@
                 alert(message);
                 return;
             }
-            alert('登録完了');
+            document.signup.submit()
         });
     };
 </script>
