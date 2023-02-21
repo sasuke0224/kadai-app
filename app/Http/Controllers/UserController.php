@@ -140,7 +140,8 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = $request->password;
         $user->save();
-
+        
+        Session::put('user', $user);
         return redirect('/');
     }
 }

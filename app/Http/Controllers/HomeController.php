@@ -46,7 +46,8 @@ class HomeController extends Controller
      * ホームに表示する投稿を時系列順に並べ替え
      */
     private function sort($array)
-    {
+    {   
+        $standard_key_array = array();
         foreach ($array as $key => $value) {
             $standard_key_array[$key] = $value['post']['created_at'];
         }
